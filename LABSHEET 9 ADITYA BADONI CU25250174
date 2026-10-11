@@ -1,0 +1,17 @@
+def solve():
+    n = int(input("Enter N: "))
+    a = list(map(int, input("Enter array elements: ").split()))
+
+    total = sum(a)
+    positive_sum = sum(x for x in a if x > 0)
+    negative_sum = sum(-x for x in a if x < 0)
+
+    if total > 0 or 2 * positive_sum > negative_sum:
+        print(-1)
+    else:
+        print(-total)
+
+t = int(input("Enter T: "))
+
+for _ in range(t):
+    solve()
