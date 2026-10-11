@@ -1,0 +1,194 @@
+Q1 :
+
+class OperatorStack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        if self.stack:
+            return self.stack.pop()
+        return None
+
+    def peek(self):
+        if self.stack:
+            return self.stack[-1]
+        return None
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+
+def precedence(operator):
+    if operator == '+' or operator == '-':
+        return 1
+    elif operator == '*' or operator == '/':
+        return 2
+    elif operator == '^':
+        return 3
+    return 0
+
+
+def infix_to_postfix(expression):
+    stack = OperatorStack()
+    postfix = ""
+
+    for ch in expression:
+        if ch.isalnum():
+            postfix += ch
+
+        elif ch == '(':
+            stack.push(ch)
+
+        elif ch == ')':
+            while not stack.is_empty() and stack.peek() != '(':
+                postfix += stack.pop()
+            stack.pop()
+
+        else:
+            while (not stack.is_empty() and
+                   stack.peek() != '(' and
+                   precedence(stack.peek()) >= precedence(ch)):
+                postfix += stack.pop()
+
+            stack.push(ch)
+
+    while not stack.is_empty():
+        postfix += stack.pop()
+
+    return postfix
+
+
+expression = input("Enter infix expression:")
+result = infix_to_postfix(expression)
+
+print("Postfix expression:")
+print(result)
+
+
+Q2:
+
+class IntegerStack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+def evaluate_postfix(expression):
+    stack = IntegerStack()
+    for ch in expression:
+        if ch.isdigit():
+            stack.push(int(ch))
+        else:
+            b = stack.pop()
+            a = stack.pop()
+
+            if ch == '+':
+                result = a + b
+            elif ch == '-':
+                result = a - b
+            elif ch == '*':
+                result = a * b
+            elif ch == '/':
+                result = a / b
+            elif ch == '^':
+                result = a ** b
+
+            stack.push(result)
+
+    return stack.pop()
+
+expression = input("Enter postfix expression:")
+result = evaluate_postfix(expression)
+print("Final mathematical output:", result)
+
+Q3:
+
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+
+class BinarySearchTree:
+    def insert(self, root, key):
+        if root is None:
+            return Node(key)
+
+        if key < root.key:
+            root.left = self.insert(root.left, key)
+        elif key > root.key:
+            root.right = self.insert(root.right, key)
+
+        return root
+
+    def delete(self, root, key):
+        if root is None:
+            return root
+
+        if key < root.key:
+            root.left = self.delete(root.left, key)
+        elif key > root.key:
+            root.right = self.delete(root.right, key)
+        else:
+            # Node with no child
+            if root.left is None and root.right is None:
+                return None
+    def inorder(self, root):
+        if root is not None:
+            self.inorder(root.left)
+            print(root.key, end=" ")
+            self.inorder(root.right)
+
+    def preorder(self, root):
+        if root is not None:
+            print(root.key, end=" ")
+            self.preorder(root.left)
+            self.preorder(root.right)
+
+    def postorder(self, root):
+        if root is not None:
+            self.postorder(root.left)
+            self.postorder(root.right)
+            print(root.key, end=" ")
+
+    bst = BinarySearchTree()
+    root = None
+
+    values = [50, 30, 70, 20, 40, 60, 80]
+
+    for value in values:
+        root = bst.insert(root, value)
+
+    print("Inorder traversal:")
+    bst.inorder(root)
+
+    print("\nPreorder traversal:")
+    bst.preorder(root)
+
+    print("\nPostorder traversal:")
+    bst.postorder(root)
+
+    print("\n\nDeleting 30...")
+    root = bst.delete(root, 30)
+
+    print("\nInorder traversal after deletion:")
+    bst.inorder(root)
+
+    print("\nPreorder traversal after deletion:")
+    bst.preorder(root)
+
+    print("\nPostorder traversal after deletion:")
+    bst.postorder(root)
+    print()
+
