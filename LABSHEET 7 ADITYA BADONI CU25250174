@@ -1,0 +1,149 @@
+# #Q1:
+
+# class Heap:
+#     def __init__(self, is_min=True):
+#         self.h = []
+#         self.is_min = is_min
+
+#     def better(self, a, b):
+#         return a < b if self.is_min else a > b
+
+#     def push(self, x):
+#         self.h.append(x)
+#         i = len(self.h) - 1
+#         while i > 0:
+#             p = (i - 1) // 2
+#             if not self.better(self.h[i], self.h[p]):
+#                 break
+#             self.h[i], self.h[p] = self.h[p], self.h[i]
+#             i = p
+
+#     def pop(self):
+#         root = self.h[0]
+#         last = self.h.pop()
+
+#         if self.h:
+#             self.h[0] = last
+#             i = 0
+#             while True:
+#                 l, r = 2 * i + 1, 2 * i + 2
+#                 best = i
+
+#                 if l < len(self.h) and self.better(self.h[l], self.h[best]):
+#                     best = l
+#                 if r < len(self.h) and self.better(self.h[r], self.h[best]):
+#                     best = r
+
+#                 if best == i:
+#                     break
+
+#                 self.h[i], self.h[best] = self.h[best], self.h[i]
+#                 i = best
+
+#         return root
+
+
+# arr = list(map(int, input("Enter array: ").split()))
+
+# min_heap = Heap(True)
+# max_heap = Heap(False)
+
+# for x in arr:
+#     min_heap.push(x)
+#     max_heap.push(x)
+
+# print("Min Heap:", min_heap.h)
+# print("Max Heap:", max_heap.h)
+
+# print("Priority Queue:", end=" ")
+# while max_heap.h:
+#     print(max_heap.pop(), end=" ")
+
+# sorted_arr = []
+# max_heap = Heap(False)
+
+# for x in arr:
+#     max_heap.push(x)
+
+# while max_heap.h:
+#     sorted_arr.append(max_heap.pop())
+
+# sorted_arr.reverse()
+
+# print("\nHeap Sort:", sorted_arr)
+
+
+
+#Q2:
+
+def difference_sum(a):
+    return sum(abs(a[i] - a[i - 1]) for i in range(1, len(a)))
+
+
+def arrange(a, c):
+    s = sorted(a)
+    p = sorted(range(len(a)), key=lambda i: c[i])
+    r = [0] * len(a)
+
+    for x, i in zip(s, p):
+        r[i] = x
+
+    return r
+
+
+def maximize(a):
+    n = len(a)
+
+    if n <= 1:
+        return a, 0
+
+    candidates = []
+
+    for start, end in [(-1, 1), (1, -1)]:
+        c = [start]
+        sign = end
+
+        for _ in range(n - 2):
+            c.append(2 * sign)
+            sign *= -1
+
+        c.append(end if n % 2 == 0 else start)
+        candidates.append(arrange(a, c))
+
+    best = max(candidates, key=difference_sum)
+    return best, difference_sum(best)
+
+
+n = int(input("Enter number of elements: "))
+arr = list(map(int, input("Enter array: ").split()))
+
+result, total = maximize(arr)
+
+print("Rearranged Array:", result)
+print("Maximum Sum:", total)
+
+
+
+# #Q3:
+
+# def smallest_subarray(arr, target):
+#     left = 0
+#     total = 0
+#     answer = len(arr) + 1
+
+#     for right in range(len(arr)):
+#         total += arr[right]
+
+#         while total > target:
+#             answer = min(answer, right - left + 1)
+#             total -= arr[left]
+#             left += 1
+
+#     return -1 if answer == len(arr) + 1 else answer
+
+
+# n = int(input("Enter number of elements: "))
+# arr = list(map(int, input("Enter array: ").split()))
+# target = int(input("Enter target: "))
+
+# print("Smallest Subarray Length:", smallest_subarray(arr, target))
