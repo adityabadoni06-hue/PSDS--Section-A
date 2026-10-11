@@ -1,0 +1,19 @@
+def solve():
+    n = int(input("Enter N: "))
+    nums = list(map(int, input("Enter array elements: ").split()))
+
+    freq = {}
+    pairs = 0
+
+    for num in nums:
+        digit_sum = sum(int(d) for d in str(abs(num)))
+
+        if digit_sum in freq:
+            pairs += freq[digit_sum]
+
+        freq[digit_sum] = freq.get(digit_sum, 0) + 1
+
+    print("Number of special pairs:", pairs)
+
+
+solve()
