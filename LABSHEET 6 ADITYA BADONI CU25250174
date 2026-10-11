@@ -1,0 +1,49 @@
+1
+arr = [-3, 1, 2, 5, 6, -3, 1, 9, 2]
+
+n = len(arr)
+triplets = []
+
+for i in range(n - 2):
+    for j in range(i + 1, n - 1):
+        for k in range(j + 1, n):
+            if arr[i] + arr[j] + arr[k] == 0:
+                triplet = (arr[i], arr[j], arr[k])
+                if triplet not in triplets:
+                    triplets.append(triplet)
+
+print("Triplets whose sum is 0:")
+
+for triplet in triplets:
+    print(triplet)
+
+
+
+
+#2
+n = int(input("Enter the number of terms: "))
+
+a, b = 1, 1
+
+print("Fibonacci Sequence:")
+
+for i in range(n):
+    print(a, end=" ")
+    a, b = b, a + b
+
+
+
+#3
+def tower_of_hanoi(n, source, auxiliary, destination):
+    if n == 1:
+        print("Move disk 1 from", source, "to", destination)
+        return
+
+    tower_of_hanoi(n - 1, source, destination, auxiliary)
+    print("Move disk", n, "from", source, "to", destination)
+    tower_of_hanoi(n - 1, auxiliary, source, destination)
+
+n = int(input("Enter number of disks: "))
+
+tower_of_hanoi(n, "A", "B", "C")
+
